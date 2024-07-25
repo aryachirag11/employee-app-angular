@@ -1,0 +1,12 @@
+<header class="w-full h-12 bg-slate-900 flex justify-between items-center">
+  <a routerLink="/" class="text-3xl text-yellow-200 font-semibold">
+    {{ title }}
+  </a>
+  <button
+    class="h-8 bg-yellow-300 rounded-lg px-3 py-1"
+    *ngIf="authService.isLoggedIn | async"
+    (click)="logout()"
+  >
+    Log Out
+  </button>
+</header>

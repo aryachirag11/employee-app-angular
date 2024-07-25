@@ -1,0 +1,63 @@
+<div>
+  <div class="w-1/2 mx-auto">
+    <h1 class="mt-10 text-2xl font-bold text-green-400 text-center">
+      Please log in to Proceed
+    </h1>
+    <form
+      [formGroup]="applyForm"
+      (submit)="onSubmit()"
+      class="mt-6 flex items-center w-full flex-col gap-y-4"
+    >
+      <label class="w-1/2">
+        <p class="mb-1 text-[0.875rem] leading-[1.375rem] text-slate-400">
+          Email Address <sup class="text-pink-200">*</sup>
+        </p>
+        <input
+          formControlName="email"
+          required
+          type="text"
+          name="email"
+          placeholder="Enter email address"
+          class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
+        />
+      </label>
+      <label class="relative w-1/2">
+        <p class="mb-1 text-[0.875rem] leading-[1.375rem] text-slate-400">
+          Password <sup class="text-pink-200">*</sup>
+        </p>
+        <input
+          formControlName="password"
+          required
+          type="password"
+          name="password"
+          placeholder="Enter Password"
+          class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] pr-12 text-slate-400"
+        />
+        <a
+          routerLink="/signup"
+          routerLinkActive="active"
+          areaCurrentWhenctive="page"
+        >
+          <p class="mt-1 ml-auto max-w-max text-xs text-blue-100">
+            Dont't have an account
+          </p>
+        </a>
+        <!-- <div
+          *ngIf="
+            applyForm.get('password').invalid &&
+            applyForm.get('password').touched
+          "
+        >
+          Password is required (minimum 6 characters).
+        </div> -->
+      </label>
+      <button
+        type="submit"
+        [disabled]="applyForm.invalid"
+        class="w-1/2 mt-6 rounded-[8px] bg-yellow-300 py-[8px] px-[12px] font-medium text-richblack-900"
+      >
+        Sign In
+      </button>
+    </form>
+  </div>
+</div>
