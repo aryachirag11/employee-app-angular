@@ -8,7 +8,8 @@ import { LoginFormComponent } from './components/login-form/login-form.component
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [HeaderComponent, LoginFormComponent, RouterOutlet],
+  //import for headerCompoent, rest all components are wrapped inside the router-outlet
+  imports: [HeaderComponent, RouterOutlet],
 })
 export class AppComponent {
   title: string = 'employees-app';

@@ -27,21 +27,14 @@ import { GlobalDataService } from '../../global-data.service';
   styleUrl: './on-boarding.component.css',
 })
 export class OnBoardingComponent {
-  // isLoggedin: boolean = false;
+  //authServcie to use isLoggedin state
   private authService = inject(AuthService);
+  // globalData service to stored additional data of the user
   private globalDataService = inject(GlobalDataService);
 
-  // onBoardingForm = new FormGroup({
-  //   username: new FormControl('', [Validators.required]),
-  //   firstName: new FormControl('', [Validators.required]),
-  //   lastName: new FormControl('', [Validators.required]),
-  //   contactNumber: new FormControl('', [Validators.required]),
-  //   address: new FormControl('', [Validators.required]),
-  //   bio: new FormControl('', [Validators.required]),
-  // });
   onBoardingForm: FormGroup;
   currentStep = 1;
-
+  //stepper form build
   constructor(private fb: FormBuilder) {
     this.onBoardingForm = this.fb.group({
       username: ['', Validators.required],
@@ -54,34 +47,38 @@ export class OnBoardingComponent {
   }
 
   ngOnInit(): void {}
-
+  //move to next step of the form
   nextStep() {
     if (this.currentStep < 3) {
       this.currentStep++;
     }
   }
-
+  //prev step
   prevStep() {
     if (this.currentStep > 1) {
       this.currentStep--;
     }
   }
+
   formData: any;
   router = new Router();
-
+  //calling login function of the authService only after successful onBoarding complete
   login() {
-    console.log('service login');
-
+    // console.log('service login');
     this.authService.login();
   }
+  //to handle onBoarding
   completeOnBoarding() {
     console.log('Form Submission');
     // event.preventDefault();
     if (this.onBoardingForm.valid) {
       this.formData = this.onBoardingForm.value;
       console.log('onBoardingForm :', this.formData);
+      //saving the form data to additional info in the service
       this.globalDataService.setAdditionalInfo(this.formData);
+      //login after onboarding completion
       this.login();
+      // navigate to employee details page
       this.router.navigate(['/employee-details']);
     }
   }

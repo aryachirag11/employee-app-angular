@@ -18,8 +18,7 @@ import { GlobalDataService } from '../../global-data.service';
   styleUrl: './login-form.component.css',
 })
 export class LoginFormComponent {
-  // private globalDataService = inject(GlobalDataService);
-
+  // grouping the applyForm
   applyForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [
@@ -29,16 +28,20 @@ export class LoginFormComponent {
   });
   formData: any;
   router = new Router();
+  //on Submit handler
   onSubmit() {
-    // event.preventDefault();
     if (this.applyForm.valid) {
       this.formData = this.applyForm.value;
+      //checking the entered credentials with stored credentials
       if (
         this.formData.email === loggedinUser.email &&
         this.formData.password === loggedinUser.password
       ) {
+        //navigating to the onBorading page
         this.router.navigate(['/on-boarding']);
-      } else alert('Please enter valid credentials');
+      }
+      // alert in case of invalid credentials
+      else alert('Please enter valid credentials');
     }
   }
 }

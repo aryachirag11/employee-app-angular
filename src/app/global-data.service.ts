@@ -26,10 +26,10 @@ interface Employee {
   providedIn: 'root',
 })
 export class GlobalDataService {
-  // User credentials
+  // User credentials : assuming the user is logged in already
   private userCredentials = new BehaviorSubject<UserCredentials | null>({
     email: 'aryachirag11@gmail.com',
-    password: 'aryachirag11@gmail.com',
+    password: 'Chirag@2001',
   });
   get userCredentials$() {
     return this.userCredentials.asObservable();

@@ -17,51 +17,19 @@ interface Employee {
   styleUrl: './employee-details.component.css',
 })
 export class EmployeeDetailsComponent {
-  // employees = [{ name: '', email: '', designation: '', age: '' }];
-
-  // handleAddEmployee() {
-  //   const lastEmployee = this.employees[this.employees.length - 1];
-  //   const duplicate = this.employees.some(
-  //     (employee, index) =>
-  //       employee.email === lastEmployee.email &&
-  //       index !== this.employees.length - 1
-  //   );
-
-  //   if (duplicate) {
-  //     alert('An employee with this email already exists.');
-  //     this.employees[this.employees.length - 1] = {
-  //       name: '',
-  //       email: '',
-  //       designation: '',
-  //       age: '',
-  //     };
-  //   } else {
-  //     this.employees.push({ name: '', email: '', designation: '', age: '' });
-  //   }
-  // }
-
-  // handleChange(index: number, event: Event) {
-  //   const target = event.target as HTMLInputElement;
-  //   const name = target.name as keyof (typeof this.employees)[0];
-  //   this.employees[index][name] = target.value;
-  // }
-
-  // handleSubmit() {
-  //   console.log('Employee details submitted:', this.employees);
-  // }
-
   employees: Employee[] = [];
   newEmployee: Employee = { name: '', email: '', designation: '', age: 0 };
 
   constructor(private globalDataService: GlobalDataService) {}
-
+  //storing the employees$ stream in local variable
   ngOnInit(): void {
     this.globalDataService.employees$.subscribe((employees) => {
       this.employees = employees;
     });
   }
-
+  //handler for adding a new employee
   handleAddEmployee() {
+    //check for multiple employees with same email
     const duplicate = this.employees.some(
       (emp) => emp.email === this.newEmployee.email
     );
@@ -69,12 +37,14 @@ export class EmployeeDetailsComponent {
       alert('An employee with this email already exists.');
       this.newEmployee = { name: '', email: '', designation: '', age: 0 }; // Clear form
     } else {
+      //save add employee if email is new
       this.globalDataService.addEmployee(this.newEmployee);
       this.newEmployee = { name: '', email: '', designation: '', age: 0 }; // Clear form
     }
   }
 
   handleSubmit() {
+    //setting employees data in global data service
     this.globalDataService.setEmployees(this.employees);
     console.log('Employee details submitted', this.employees);
   }
