@@ -4,12 +4,22 @@
     (ngSubmit)="handleSubmit()"
     class="mx-auto flex flex-col items-center"
   >
-    <h1 class="text-2xl text-orange-400 font-bold my-5">
+    <h1 class="text-2xl text-orange-400 font-bold my-10">
       Add details of your employees
     </h1>
+    <div class="progress-wrapper bg-transparent h-1/2 w-full ml-5">
+      <nz-progress
+        class="custom-progress"
+        [nzPercent]="scrollPercent"
+        [nzFormat]="emptyString"
+        nzType="line"
+        [nzStrokeWidth]="10"
+      ></nz-progress>
+    </div>
     <div
+      (scroll)="onScroll($event)"
       *ngIf="employeesLength > 0"
-      class="max-h-[300px] overflow-y-auto overflow-x-auto"
+      class="max-h-[300px] overflow-y-auto overflow-x-auto scroll-container"
     >
       <div
         *ngFor="let employee of currentEmployees; let i = index"

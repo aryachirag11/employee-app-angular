@@ -1,0 +1,26 @@
+::-webkit-scrollbar {
+  display: none;
+}
+.scroll-container {
+  overflow-y: auto;
+  /* border: 1px solid; */
+  margin-bottom: 20px;
+  /* width:; */
+}
+
+.content {
+  height: 1000px;
+}
+
+.progress-wrapper {
+  height: 10px;
+  position: fixed;
+  top: -10;
+  left: 0;
+  width: 100%; /* This will be dynamically updated */
+  transition: width 2s ease; /* Smooth transition effect */
+}
+
+.custom-progress .ant-progress-bg {
+  background-color: #facc15; /* Change progress bar color */
+}

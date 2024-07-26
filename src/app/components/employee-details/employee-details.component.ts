@@ -10,6 +10,7 @@ import {
   AbstractControl,
 } from '@angular/forms';
 import { GlobalDataService } from '../../global-data.service';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 interface Employee {
   name: string;
@@ -21,7 +22,7 @@ interface Employee {
 @Component({
   selector: 'app-employee-details',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, NzProgressModule],
   templateUrl: './employee-details.component.html',
   styleUrls: ['./employee-details.component.css'],
 })
@@ -29,6 +30,11 @@ export class EmployeeDetailsComponent implements OnInit {
   employees: Employee[] = [];
   employeeForm: FormGroup;
   newEmployeeForm: FormGroup;
+  scrollPercent = 0;
+
+  @ViewChild('header') header!: ElementRef;
+  @ViewChild('content') content!: ElementRef;
+
   constructor(
     private globalDataService: GlobalDataService,
     private fb: FormBuilder
@@ -60,6 +66,17 @@ export class EmployeeDetailsComponent implements OnInit {
       ],
     });
   }
+
+  onScroll(event: Event): void {
+    const target = event.target as HTMLElement;
+    const scrollTop = target.scrollTop;
+    const scrollHeight = target.scrollHeight;
+    const clientHeight = target.clientHeight;
+    const scrollableHeight = scrollHeight - clientHeight;
+
+    this.scrollPercent = (scrollTop / scrollableHeight) * 100;
+  }
+
   get currentEmployees(): Employee[] {
     return this.employees;
   }
@@ -70,8 +87,6 @@ export class EmployeeDetailsComponent implements OnInit {
   get employeesLength(): number {
     return this.employees ? this.employees.length : 0;
   }
-  @ViewChild('header') header!: ElementRef;
-  @ViewChild('content') content!: ElementRef;
 
   ngOnInit(): void {
     this.globalDataService.employees$.subscribe((employees) => {
@@ -92,12 +107,6 @@ export class EmployeeDetailsComponent implements OnInit {
           })
         );
       });
-    });
-    const header = this.header.nativeElement;
-    const content = this.content.nativeElement;
-
-    content.addEventListener('scroll', () => {
-      header.scrollLeft = content.scrollTop;
     });
   }
 
@@ -129,5 +138,8 @@ export class EmployeeDetailsComponent implements OnInit {
     } else {
       this.employeeForm.markAllAsTouched();
     }
+  }
+  emptyString(): string {
+    return '';
   }
 }
