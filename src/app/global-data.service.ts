@@ -37,7 +37,7 @@ export class GlobalDataService {
 
   // Additional information
   private additionalInfo = new BehaviorSubject<AdditionalInfo | null>(
-    this.loadFromLocalStorage('additionalInfo') || null
+    this.loadFromsessionStorage('additionalInfo') || null
   );
   get additionalInfo$() {
     return this.additionalInfo.asObservable();
@@ -45,43 +45,43 @@ export class GlobalDataService {
 
   // Employees data
   private employees = new BehaviorSubject<Employee[]>(
-    this.loadFromLocalStorage('employees') || []
+    this.loadFromsessionStorage('employees') || []
   );
   get employees$() {
     return this.employees.asObservable();
   }
 
-  // Load data from localStorage
-  private loadFromLocalStorage(key: string): any {
-    const item = localStorage.getItem(key);
+  // Load data from sessionStorage
+  private loadFromsessionStorage(key: string): any {
+    const item = sessionStorage.getItem(key);
     return item ? JSON.parse(item) : null;
   }
 
-  // Save data to localStorage
-  private saveToLocalStorage(key: string, data: any): void {
-    localStorage.setItem(key, JSON.stringify(data));
+  // Save data to sessionStorage
+  private saveTosessionStorage(key: string, data: any): void {
+    sessionStorage.setItem(key, JSON.stringify(data));
   }
 
   // Methods to update data
   setAdditionalInfo(info: AdditionalInfo) {
     this.additionalInfo.next(info);
-    this.saveToLocalStorage('additionalInfo', info);
+    this.saveTosessionStorage('additionalInfo', info);
   }
 
   setEmployees(employees: Employee[]) {
     this.employees.next(employees);
-    this.saveToLocalStorage('employees', employees);
+    this.saveTosessionStorage('employees', employees);
   }
 
   addEmployee(employee: Employee) {
     const currentEmployees = this.employees.value;
     const updatedEmployees = [...currentEmployees, employee];
     this.employees.next(updatedEmployees);
-    this.saveToLocalStorage('employees', updatedEmployees);
+    this.saveTosessionStorage('employees', updatedEmployees);
   }
 
   clearEmployeeData() {
     this.employees.next([]);
-    this.saveToLocalStorage('employees', []);
+    this.saveTosessionStorage('employees', []);
   }
 }

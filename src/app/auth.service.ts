@@ -1,6 +1,7 @@
 //Service to handle the login state of the user
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -9,10 +10,10 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   //to keep tack of the login state
   private loggedIn = new BehaviorSubject<boolean>(this.loadLoginState());
-
+  private router = inject(Router);
   constructor() {
     //initialize the login state from local storage
-    // Initialize the login state from localStorage or sessionStorage
+    // Initialize the login state from sessionStorage or sessionStorage
     const storedLoginState = this.loadLoginState();
     this.loggedIn.next(storedLoginState);
   }
@@ -30,14 +31,15 @@ export class AuthService {
   logout() {
     this.loggedIn.next(false);
     this.saveLoginState(false);
+    this.router.navigate(['/login']);
   }
   //laod login state from local storage
   private loadLoginState(): boolean {
-    const storedState = localStorage.getItem('loggedIn');
+    const storedState = sessionStorage.getItem('loggedIn');
     return storedState ? JSON.parse(storedState) : false;
   }
   //save login state in local storage
   private saveLoginState(state: boolean): void {
-    localStorage.setItem('loggedIn', JSON.stringify(state));
+    sessionStorage.setItem('loggedIn', JSON.stringify(state));
   }
 }

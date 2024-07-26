@@ -1,115 +1,11 @@
-<!-- <div class="mt-10">
-  <h1 class="text-2xl font-bold text-green-400 text-center">
-    Welcome On-board
-  </h1>
-  <p class="text-lg text-center text-yellow-400">
-    Fill in the details to complete onboarding
-  </p>
-  <div class="w-1/2 flex flex-col justify-center mx-auto">
-    <form
-      [formGroup]="onBoardingForm"
-      (submit)="completeOnBoarding()"
-      class="flex w-full flex-col gap-y-4"
-    >
-      <label class="w-full">
-        <p class="mb-1 text-[0.875rem] leading-[1.375rem] text-slate-400">
-          Username <sup class="text-pink-200">*</sup>
-        </p>
-        <input
-          formControlName="username"
-          required
-          type="text"
-          name="username"
-          placeholder="Enter username"
-          class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
-        />
-      </label>
-      <div class="flex gap-x-4 justify-between">
-        <label>
-          <p class="mb-1 text-[0.875rem] leading-[1.375rem] text-slate-400">
-            First Name <sup class="text-pink-200">*</sup>
-          </p>
-          <input
-            formControlName="firstName"
-            required
-            type="text"
-            name="firstName"
-            placeholder="Enter first name"
-            class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
-          />
-        </label>
-        <label>
-          <p class="mb-1 text-[0.875rem] leading-[1.375rem] text-slate-400">
-            Last Name <sup class="text-pink-200">*</sup>
-          </p>
-          <input
-            formControlName="lastName"
-            required
-            type="text"
-            name="lastName"
-            placeholder="Enter last name"
-            class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
-          />
-        </label>
-      </div>
-      <label>
-        <p class="mb-1 text-[0.875rem] leading-[1.375rem] text-slate-400">
-          Contact Number <sup class="text-pink-200">*</sup>
-        </p>
-        <input
-          formControlName="contactNumber"
-          required
-          type="number"
-          name="contactNumber"
-          placeholder="Enter phone number"
-          class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
-        />
-      </label>
-      <label>
-        <p class="mb-1 text-[0.875rem] leading-[1.375rem] text-slate-400">
-          Address <sup class="text-pink-200">*</sup>
-        </p>
-        <textarea
-          formControlName="address"
-          required
-          type=""
-          name="address"
-          placeholder="Enter address"
-          class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
-        ></textarea>
-      </label>
-      <label>
-        <p class="mb-1 text-[0.875rem] leading-[1.375rem] text-slate-400">
-          Bio <sup class="text-pink-200">*</sup>
-        </p>
-        <textarea
-          formControlName="bio"
-          required
-          type=""
-          name="bio"
-          placeholder="Tell us something about yourself"
-          class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
-        ></textarea>
-      </label>
-      <button
-        type="submit"
-        [disabled]="onBoardingForm.invalid"
-        class="mt-6 rounded-[8px] bg-yellow-300 py-[8px] px-[12px] font-medium text-richblack-900"
-      >
-        Complete Onboarding
-      </button>
-    </form>
-  </div>
-</div> -->
-
-<div class="mt-10">
-  <h1 class="text-2xl font-bold text-green-400 text-center">
-    Welcome On-board
-  </h1>
-  <p class="text-lg text-center text-yellow-400">
-    Fill in the details to complete onboarding
-  </p>
-  <div class="w-1/2 flex flex-col justify-center mx-auto">
+<div>
+  <div class="w-1/2 mx-auto">
+    <h1 class="text-2xl font-bold text-green-400 text-center">
+      Welcome On-board
+    </h1>
+    <p class="text-lg text-center text-yellow-400">
+      Fill in the details to complete onboarding
+    </p>
     <form
       [formGroup]="onBoardingForm"
       (ngSubmit)="completeOnBoarding()"
@@ -132,6 +28,14 @@
               placeholder="Enter username"
               class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
             />
+            <div
+              *ngIf="
+                formControls.username.invalid && formControls.username.touched
+              "
+              class="text-red-500 text-sm mt-1"
+            >
+              Username is required.
+            </div>
           </label>
           <div class="flex gap-x-4 justify-between">
             <label>
@@ -145,6 +49,15 @@
                 placeholder="Enter first name"
                 class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
               />
+              <div
+                *ngIf="
+                  formControls.firstName.invalid &&
+                  formControls.firstName.touched
+                "
+                class="text-red-500 text-sm mt-1"
+              >
+                First Name is required.
+              </div>
             </label>
             <label>
               <p class="mb-1 text-[0.875rem] leading-[1.375rem] text-slate-400">
@@ -157,6 +70,14 @@
                 placeholder="Enter last name"
                 class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
               />
+              <div
+                *ngIf="
+                  formControls.lastName.invalid && formControls.lastName.touched
+                "
+                class="text-red-500 text-sm mt-1"
+              >
+                Last Name is required.
+              </div>
             </label>
           </div>
           <div class="flex justify-between mt-4">
@@ -164,6 +85,7 @@
               type="button"
               (click)="nextStep()"
               class="rounded-[8px] bg-yellow-300 py-[8px] px-[12px] font-medium text-richblack-900"
+              [disabled]="!step1"
             >
               Next
             </button>
@@ -186,6 +108,24 @@
               placeholder="Enter phone number"
               class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
             />
+            <div
+              *ngIf="
+                formControls.contactNumber.invalid &&
+                formControls.contactNumber.touched
+              "
+              class="text-red-500 text-sm mt-1"
+            >
+              <ng-container
+                *ngIf="formControls.contactNumber.errors?.['required']"
+              >
+                Contact Number is required.
+              </ng-container>
+              <ng-container
+                *ngIf="formControls.contactNumber.errors?.['pattern']"
+              >
+                Enter a valid contact number (10 digits).
+              </ng-container>
+            </div>
           </label>
           <label>
             <p class="mb-1 text-[0.875rem] leading-[1.375rem] text-slate-400">
@@ -197,6 +137,14 @@
               placeholder="Enter address"
               class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
             ></textarea>
+            <div
+              *ngIf="
+                formControls.address.invalid && formControls.address.touched
+              "
+              class="text-red-500 text-sm mt-1"
+            >
+              Address is required.
+            </div>
           </label>
           <div class="flex justify-between mt-4">
             <button
@@ -210,6 +158,7 @@
               type="button"
               (click)="nextStep()"
               class="rounded-[8px] bg-yellow-300 py-[8px] px-[12px] font-medium text-richblack-900"
+              [disabled]="!step2"
             >
               Next
             </button>
@@ -231,6 +180,12 @@
               placeholder="Tell us something about yourself"
               class="w-full rounded-[0.5rem] bg-richblack-800 p-[12px] text-slate-400"
             ></textarea>
+            <div
+              *ngIf="formControls.bio.invalid && formControls.bio.touched"
+              class="text-red-500 text-sm mt-1"
+            >
+              Bio is required.
+            </div>
           </label>
           <div class="flex justify-between mt-4">
             <button
@@ -242,7 +197,7 @@
             </button>
             <button
               type="submit"
-              [disabled]="onBoardingForm.invalid"
+              [disabled]="!step3"
               class="rounded-[8px] bg-yellow-300 py-[8px] px-[12px] font-medium text-richblack-900"
             >
               Complete Onboarding

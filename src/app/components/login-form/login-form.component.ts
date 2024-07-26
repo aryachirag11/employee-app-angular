@@ -9,6 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { loggedinUser } from '../../../assets/data/userCredentails';
 import { GlobalDataService } from '../../global-data.service';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -18,6 +19,8 @@ import { GlobalDataService } from '../../global-data.service';
   styleUrl: './login-form.component.css',
 })
 export class LoginFormComponent {
+  private authService = inject(AuthService);
+  private globalService = inject(GlobalDataService);
   // grouping the applyForm
   applyForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -28,6 +31,9 @@ export class LoginFormComponent {
   });
   formData: any;
   router = new Router();
+  login() {
+    this.authService.login();
+  }
   //on Submit handler
   onSubmit() {
     if (this.applyForm.valid) {
@@ -38,7 +44,15 @@ export class LoginFormComponent {
         this.formData.password === loggedinUser.password
       ) {
         //navigating to the onBorading page
-        this.router.navigate(['/on-boarding']);
+        this.login();
+        if (this.globalService.additionalInfo$) {
+          console.log('redirect to emplooyee data');
+          this.router.navigate(['/employee-details']);
+        } else {
+          console.log('Proceed to on-boarding');
+
+          this.router.navigate(['/on-boarding']);
+        }
       }
       // alert in case of invalid credentials
       else alert('Please enter valid credentials');
